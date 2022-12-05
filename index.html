@@ -8,12 +8,32 @@
     <title>Tic Tac Toe</title>
 </head>
 <body>
+    <div id="take-over">
+        <div class="game-selection">
+            <div id="left"></div>
+            <div id="center"></div>
+            <div id="right"></div>
+        </div>
+        <div class="navigation">
+            <div id="player1-name">
+                <label for="text">Player 1 Name</label>
+                <input id="player1-name-label" type="text">
+            </div>
+            <div id="start-game"></div>
+            <div id="player2-name">
+                <label for="text">Player 2 Name</label>
+                <input id="player2-name-label" type="text">
+            </div>
+        </div>
+    </div>
+    <div id="game-container">
     <div id="top-level">
         <div id="player1">Player 1<br></div>
         <div id="tictaccontainer" class="tictaccontainer"></div>
         <div id="player2">Player 2<br></div>
     </div>
     <div id="low-level">Total score</div>
+    </div>
     <script src="./scripts/script.js"></script>
 </body>
 </html>

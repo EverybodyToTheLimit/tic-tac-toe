@@ -1,7 +1,13 @@
+@font-face {
+    font-family: merriweather;
+    src: url("../fonts/Merriweather-Bold.ttf");
+  }
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: merriweather;
   }
 
 
@@ -12,11 +18,11 @@
     align-items: center;
     justify-content: center;
 
-    background-color: bisque;
+    background-image: url("../img/tictactoeboard.png");
   }
 
   .tictacField {
-    font-size: 80px;
+    font-size: 0px;
     text-align: center;
     align-items: center;
     height: 250px;
@@ -44,9 +50,63 @@
     align-items: center;
   }
 
-  body {
+  #game-container {
     display: flex; 
     flex-direction: column;
     justify-content: center;
     align-items: center;
+  }
+
+  #take-over {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-color: rgba(128, 128, 128, 0.281);
+    backdrop-filter: blur(8px); 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+  }
+
+  #left {
+    width: 250px;
+    height: 250px;
+    background-image: url("../img/left.png");
+  }
+  #right {
+    width: 250px;
+    height: 250px;
+    background-image: url("../img/right.png");
+  }
+  #center {
+    width: 250px;
+    height: 250px;
+    background-image: url("../img/center.png");
+  }
+
+  #left:hover {
+    background-image: url("../img/left_hover.png");
+  }
+
+  #right:hover {
+    background-image: url("../img/right_hover.png")
+  }
+
+  .game-selection {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .navigation {
+    display: flex;
+    
+  }
+
+  #player1-name, #player2-name, #start-game {
+    width: 250px;
+    height: 250px;
   }

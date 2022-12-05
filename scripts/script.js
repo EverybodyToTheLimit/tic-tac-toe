@@ -13,6 +13,12 @@ var gameBoard = (function() {
             newDiv.id = object.fieldName;
             newDiv.className = "tictacField";
             newDiv.textContent = object.value;
+            if (newDiv.textContent == "x") {
+                newDiv.style.backgroundImage = "url(./img/cross.png)"
+            }
+            else if (newDiv.textContent == "o") {
+                newDiv.style.backgroundImage = "url(./img/circle.png)"
+            }
             rootElement.append(newDiv);
             document.getElementById(newDiv.id).addEventListener('click', () => {updateField(newDiv.id, currentTurn)})
            })
