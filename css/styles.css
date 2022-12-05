@@ -6,11 +6,47 @@
 
 
 
-  .container {
-    width: 70vw;
-    min-width: 600px;
-    height: 70vw;
-    min-width: 600px;
+  .tictaccontainer {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(250px, 1fr));
+    align-items: center;
+    justify-content: center;
 
     background-color: bisque;
+  }
+
+  .tictacField {
+    font-size: 80px;
+    text-align: center;
+    align-items: center;
+    height: 250px;
+  }
+
+  #top-level {
+    display: flex;
+    justify-content: center;
+  }
+
+  #player1, #player2 {
+    width: 125px;
+    font-size: x-large;
+    display: flex; 
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #low-level {
+    width: 1000px;
+    display: flex; 
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  body {
+    display: flex; 
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
