@@ -29,7 +29,7 @@
   }
 
   #top-level {
-    display: flex;
+    display: none;
     justify-content: center;
   }
 
@@ -44,11 +44,12 @@
 
   #low-level {
     width: 1000px;
-    display: flex; 
+    display: none; 
     flex-direction: column;
     justify-content: center;
     align-items: center;
   }
+
 
   #game-container {
     display: flex; 
@@ -63,7 +64,7 @@
     position: absolute;
     background-color: rgba(128, 128, 128, 0.281);
     backdrop-filter: blur(8px); 
-    display: flex;
+    display: none;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -101,12 +102,26 @@
     gap: 10px;
   }
 
-  .navigation {
+  #navigation {
     display: flex;
-    
+
   }
 
   #player1-name, #player2-name, #start-game {
+    text-align: center;
+    padding-bottom: 10px;
     width: 250px;
     height: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+  }
+
+  #start-game {
+    background-image: url("../img/start.png");
+  }
+
+  #start-game:hover {
+    background-image: url("../img/start_hover.png");
   }

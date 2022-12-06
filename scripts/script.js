@@ -1,8 +1,9 @@
-var gameBoard = (function() {
+var gameBoard = (function(player1Name, player2Name, gameMode) {
 
         var fields = [{fieldName: "a1", value: "", wincheck: 0}, {fieldName: "a2", value: "", wincheck: 0}, {fieldName: "a3", value: "", wincheck: 0}, {fieldName: "b1", value: "", wincheck: 0}, {fieldName: "b2", value: "", wincheck: 0}, {fieldName: "b3", value: "", wincheck: 0}, {fieldName: "c1", value: "", wincheck: 0}, {fieldName: "c2", value: "", wincheck: 0}, {fieldName: "c3", value: "", wincheck: 0} ];
         var players = [{name: "Jack", symbol: "x"},{name: "Jill", symbol : "o"}];
-        
+        let gameOver = false;
+
         var renderBoard = () => {       //Destroy and draw objects
            let rootElement = document.getElementById("tictaccontainer")
            while (rootElement.firstChild) {
@@ -28,6 +29,20 @@ var gameBoard = (function() {
 
         var currentTurn = players[0].name;      //Current round counter
 
+        function fadeOutEffect(divName) {              //Function to fade out Div
+            var fadeTarget = document.getElementById(divName);
+            var fadeEffect = setInterval(function () {
+                if (!fadeTarget.style.opacity) {
+                    fadeTarget.style.opacity = 1;
+                }
+                if (fadeTarget.style.opacity > 0) {
+                    fadeTarget.style.opacity -= 0.1;
+                } else {
+                    clearInterval(fadeEffect);
+                }
+            }, 100);
+        }
+
         var updateField = (field, player) => {      //Function to update field
                 let tempResult = undefined;
                 let playerSymbol = "";
@@ -49,7 +64,6 @@ var gameBoard = (function() {
                             post.wincheck = 5;
                         }
                         post.value = playerSymbol
-                        alert("valid");
                         if (currentTurn == players[0].name) {
                             currentTurn = players[1].name
                         }
@@ -64,7 +78,9 @@ var gameBoard = (function() {
                     else {
 
                         tempResult = false;
-                        alert("not valid");
+                        document.getElementById("low-level").textContent = "This field has already been filled"
+                        fadeOutEffect("low-level");
+                        document.getElementById("low-level").style.opacity = "1"
                         return false;
                         } 
                     
@@ -82,7 +98,8 @@ var gameBoard = (function() {
             )
             
             {
-                alert(players[0].name + " is the winner")
+                alert(players[0].name + " is the winner");
+                gameOver = true;
                 return true;
             }
             else if ((fields[0].wincheck + fields[1].wincheck + fields[2].wincheck == 15) || (fields[3].wincheck + fields[4].wincheck + fields[5].wincheck == 15) || (fields[6].wincheck + fields[7].wincheck + fields[8].wincheck == 15) 
@@ -92,21 +109,61 @@ var gameBoard = (function() {
             )
             {
                 alert(players[0].name + " is the winner")
+                gameOver = true;
                 return true;
             }
             else {
                 return false;
             }
         }
-        renderBoard();
+        if (gameOver == true) {
+            initalScreen();
+            return
+
+
+        }
+        else {
+            renderBoard();
+        }
         
         return {
-            updateField,
-            renderBoard,
-            currentTurn,
-            fields
+            gameOver,
         }
+});
+
+
+var initalScreen =(function() {
+    let player1Name = "";
+    let player2Name = "";
+    let gameMode = "";
+    document.getElementById("take-over").style.display = "flex"
+    document.getElementById("navigation").style.visibility = "hidden"
+    document.getElementById("left").addEventListener("click", () => {
+        gameMode = "pvp"
+        document.getElementById("navigation").style.visibility = "visible"
+        document.getElementById("player2-name").style.visibility = "visible"
+    })
+    document.getElementById("right").addEventListener("click", () => {
+        gameMode = "pvc"
+        document.getElementById("navigation").style.visibility = "visible"
+        document.getElementById("player2-name").style.visibility = "hidden"
+    })
+
+    document.getElementById("start-game").addEventListener("click", () => {
+        player1Name = document.getElementById("player1-name-label")
+        player2Name = document.getElementById("player2-name-label")
+        document.getElementById("take-over").style.display = "none"
+        document.getElementById("navigation").style.visibility = "visible"
+        document.getElementById("top-level").style.display = "flex"
+        document.getElementById("low-level").style.display = "flex"
+        gameBoard(player1Name, player2Name, gameMode)
+
+    })
+
+    return {
+        gameMode,
+        player1Name,
+        player2Name
+    }
+
 })();
-
-
-
