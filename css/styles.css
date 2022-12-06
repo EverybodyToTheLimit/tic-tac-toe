@@ -125,3 +125,9 @@
   #start-game:hover {
     background-image: url("../img/start_hover.png");
   }
+
+  #winning-line {
+    position: absolute;
+    top: 0;
+  }
+
