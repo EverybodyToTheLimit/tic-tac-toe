@@ -1,17 +1,29 @@
 var gameBoard = (function(player1Name, player2Name, gameMode) {
-
-        var fields = [{fieldName: "a1", value: "x", wincheck: 1}, {fieldName: "a2", value: "", wincheck: 0}, {fieldName: "a3", value: "", wincheck: 0}, {fieldName: "b1", value: "", wincheck: 0}, {fieldName: "b2", value: "", wincheck: 0}, {fieldName: "b3", value: "", wincheck: 0}, {fieldName: "c1", value: "", wincheck: 0}, {fieldName: "c2", value: "", wincheck: 0}, {fieldName: "c3", value: "", wincheck: 0} ];
+        var fields = [{fieldName: "a1", value: "", wincheck: 0}, {fieldName: "a2", value: "", wincheck: 0}, {fieldName: "a3", value: "", wincheck: 0}, {fieldName: "b1", value: "", wincheck: 0}, {fieldName: "b2", value: "", wincheck: 0}, {fieldName: "b3", value: "", wincheck: 0}, {fieldName: "c1", value: "", wincheck: 0}, {fieldName: "c2", value: "", wincheck: 0}, {fieldName: "c3", value: "", wincheck: 0} ];
         var players = [{name: "", symbol: "x"},{name: "", symbol : "o"}];
         let gameOver = false;
 
-        players[0].name = player1Name;
-        players[1].name = player2Name;
-        document.getElementById("player1").textContent = "Player 1\n" + player1Name;
-        document.getElementById("player2").textContent = "Player 2\n" + player2Name;
+        
+        if (gameMode == "pvc") {
+            var random = Math.floor(Math.random() * fields.length)
+            fields[random].value = "x";
+            fields[random].wincheck = "1";
+            players[0].name = "Computer";
+            players[1].name = player1Name;
+            document.getElementById("player1").textContent = "Player 1\n" + "Computer";
+            document.getElementById("player2").textContent = "Player 2\n" + player1Name;
+        }
+        else if (gameMode == "pvp") {
+            players[0].name = player1Name;
+            players[1].name = player2Name;
+            document.getElementById("player1").textContent = "Player 1\n" + player1Name;
+            document.getElementById("player2").textContent = "Player 2\n" + player2Name;
+        }
 
         var renderBoard = () => {       //Destroy and draw objects
            let rootElement = document.getElementById("tictaccontainer")
            while (rootElement.firstChild) {
+            rootElement.firstChild.removeEventListener("click", () => {});
             rootElement.removeChild(rootElement.firstChild)
            }
            fields.forEach(object => {
@@ -32,12 +44,7 @@ var gameBoard = (function(player1Name, player2Name, gameMode) {
         };
 
         // AI THINGY
-        // var btn = document.getElementById("AI")
-        // btn.addEventListener("click", () => {
-        //     fields[bestSpot()].value = "x";
-        //     fields[bestSpot()].wincheck = 1;
-        //     renderBoard();
-        // })
+
 
         
         function bestSpot() {
@@ -187,7 +194,9 @@ var gameBoard = (function(player1Name, player2Name, gameMode) {
                 })
 
                 fields.find(function(post, index) {
-                if(post.fieldName == field) {
+                
+                
+                if(post.fieldName == field && gameMode == "pvp") {
                     if(post.value != "o" && post.value != "x") {
                         tempResult = true;
                         if (currentTurn == players[0].name) {
@@ -201,33 +210,59 @@ var gameBoard = (function(player1Name, player2Name, gameMode) {
                             currentTurn = players[1].name
                         }
                         else {
-                            // currentTurn = players[0].name
+                            currentTurn = players[0].name
                         }
-                        renderBoard();
-                        checkResult(fields);
-                        
-                        var bestMove = bestSpot();
-                        fields[bestMove].value = "x";
-                        fields[bestMove].wincheck = 1;
                         renderBoard();
                         checkResult(fields);
 
                         return true;
                     }
                     else {
-
                         tempResult = false;
                         document.getElementById("low-level").textContent = "This field has already been filled"
                         fadeOutEffect("low-level");
                         document.getElementById("low-level").style.opacity = "1"
                         return false;
-                        } 
+                    }
                     
-                }})
-                if (tempResult == undefined) {
-                    alert("not in scope")
                 }
-                return tempResult;
+                else if (post.fieldName == field && gameMode == "pvc") {
+                    if(post.value != "o" && post.value != "x") {
+                    
+                    if (currentTurn == players[0].name) {
+                        post.wincheck = 1;
+                    }
+                    else {
+                        post.wincheck = 5;
+                    }
+                    post.value = playerSymbol
+                    if (currentTurn == players[0].name) {
+                        currentTurn = players[1].name
+                    }
+                    else {
+                        //currentTurn = players[0].name
+                    }
+                    renderBoard();
+                    checkResult(fields);
+                        
+                        var bestMove = bestSpot();
+                        fields[bestMove].value = "x";
+                        fields[bestMove].wincheck = 1;
+                        renderBoard();
+                        checkResult(fields);
+                        
+                    return true;
+                }
+                    else {
+                        tempResult = false;
+                        document.getElementById("low-level").textContent = "This field has already been filled"
+                        fadeOutEffect("low-level");
+                        document.getElementById("low-level").style.opacity = "1"
+                        checkResult(fields);
+                        return false;
+                    }
+            }
+                })
             
         }
         var checkResult = (board) => {
@@ -349,9 +384,11 @@ var initalScreen =(function() {
         gameMode = "pvp"
         document.getElementById("navigation").style.visibility = "visible"
         document.getElementById("player2-name").style.visibility = "visible"
+        document.getElementById("pl1label").textContent = "Player 1 Name"
     })
     document.getElementById("right").addEventListener("click", () => {
         gameMode = "pvc"
+        document.getElementById("pl1label").textContent = "Player Name"
         document.getElementById("navigation").style.visibility = "visible"
         document.getElementById("player2-name").style.visibility = "hidden"
     })
